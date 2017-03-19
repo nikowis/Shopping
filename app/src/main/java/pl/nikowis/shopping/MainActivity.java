@@ -1,10 +1,11 @@
 package pl.nikowis.shopping;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.FrameLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,10 +13,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = manager.beginTransaction();
-        MainFragment mainFragment = new MainFragment();
-        fragmentTransaction.add(R.id.main_container, mainFragment);
-        fragmentTransaction.commit();
+        FloatingActionButton button = (FloatingActionButton) findViewById(R.id.add_button);
+        final MainFragment frag = (MainFragment) getFragmentManager().findFragmentById(R.id.main_fragment);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frag.showAddPopupEditor();
+            }
+        });
     }
+
+
 }
