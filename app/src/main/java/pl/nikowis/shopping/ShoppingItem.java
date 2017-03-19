@@ -6,12 +6,12 @@ package pl.nikowis.shopping;
 public class ShoppingItem {
     private String title;
     private String description;
-    private Long photoId;
+    private int resId;
 
-
-    public ShoppingItem(String title, String description) {
+    public ShoppingItem(String title, String description, int resId) {
         this.title = title;
         this.description = description;
+        this.resId = resId;
     }
 
     public String getTitle() {
@@ -22,7 +22,7 @@ public class ShoppingItem {
         return description;
     }
 
-    public Long getPhotoId() {
-        return photoId;
+    public int getResId() {
+        return resId;
     }
 }

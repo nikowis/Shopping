@@ -35,6 +35,7 @@ public class ShoppingAdapter  extends RecyclerView.Adapter<ShoppingViewHolder> {
         ShoppingItem shoppingItem = list.get(position);
         holder.mTitleView.setText(shoppingItem.getTitle());
         holder.mDescriptionView.setText(shoppingItem.getDescription());
+        holder.imageView.setImageResource(shoppingItem.getResId());
     }
 
     @Override

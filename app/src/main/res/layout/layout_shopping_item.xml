@@ -9,7 +9,6 @@
 
     <ImageView
         android:layout_height="50dp"
-        app:srcCompat="@mipmap/groceries"
         android:id="@+id/item_image"
         android:layout_width="112dp"
         android:layout_margin="5dp" />

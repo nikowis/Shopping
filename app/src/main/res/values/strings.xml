@@ -3,4 +3,5 @@
     <string name="popup_button">Add</string>
     <string name="popup_title_label">Title</string>
     <string name="popup_description_label">Description</string>
+    <string name="popup_image_label">Image</string>
 </resources>

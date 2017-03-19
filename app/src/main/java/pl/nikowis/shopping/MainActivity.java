@@ -2,9 +2,7 @@ package pl.nikowis.shopping;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
