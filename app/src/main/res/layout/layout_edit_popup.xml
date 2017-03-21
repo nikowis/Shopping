@@ -38,10 +38,10 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <Spinner
-        android:spinnerMode="dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/popup_image_spinner" />
+        android:id="@+id/popup_image_spinner"
+        android:spinnerMode="dialog" />
 
     <Button
         android:text="@string/popup_button"

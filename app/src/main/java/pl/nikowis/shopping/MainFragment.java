@@ -28,13 +28,9 @@ import java.util.List;
 public class MainFragment extends Fragment {
 
     private List<ShoppingItem> list;
-    private PopupWindow popupEditor;
-    private View popupLayout;
-    private Button popupButton;
-    private Spinner popupSpinner;
+    private EditorPopupWindow popupEditor;
     private RecyclerView recyclerView;
-    ShoppingAdapter shoppingAdapter;
-    private Integer[] images;
+    private ShoppingAdapter shoppingAdapter;
 
     @Nullable
     @Override
@@ -42,41 +38,22 @@ public class MainFragment extends Fragment {
         View mainFragment = inflater.inflate(R.layout.fragment_main, container, false);
         recyclerView = (RecyclerView) mainFragment.findViewById(R.id.shopping_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        list = new ArrayList<>();
-        list.add(new ShoppingItem("tytul", "opis", R.drawable.carrot));
-        list.add(new ShoppingItem("tytul2", "opis2", R.drawable.groceries));
-
-        images = new Integer[]{R.drawable.carrot, R.drawable.groceries
-                , R.drawable.doughnut, R.drawable.turkey, R.drawable.washing_machine};
-
-        shoppingAdapter = new ShoppingAdapter(list, getActivity());
-        recyclerView.setAdapter(shoppingAdapter);
-        setupPopupEditor(inflater);
-        return mainFragment;
-    }
-
-    private void setupPopupEditor(LayoutInflater inflater) {
-        popupLayout = inflater.inflate(R.layout.layout_edit_popup, null);
-        popupEditor = new PopupWindow(getActivity());
-        popupEditor.setContentView(popupLayout);
-        popupEditor.setFocusable(true);
-        popupButton = (Button) popupLayout.findViewById(R.id.popup_button_add);
-        popupSpinner = (Spinner) popupLayout.findViewById(R.id.popup_image_spinner);
-
-        popupSpinner.setAdapter(new ImageArrayAdapter(getContext(), images));
-        final EditText title = (EditText) popupLayout.findViewById(R.id.popup_text_title);
-        final EditText description = (EditText) popupLayout.findViewById(R.id.popup_text_description);
-        final Spinner image = (Spinner) popupLayout.findViewById(R.id.popup_image_spinner);
-        popupButton.setOnClickListener(new View.OnClickListener() {
+        popupEditor = new EditorPopupWindow(getActivity());
+        popupEditor.setAddButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.add(new ShoppingItem(title.getText().toString(), description.getText().toString(), (Integer) image.getSelectedItem()));
+                list.add(popupEditor.commitFields());
                 popupEditor.dismiss();
-                title.setText("");
-                description.setText("");
+                popupEditor.clearFields();
                 shoppingAdapter.notifyDataSetChanged();
             }
         });
+        list = new ArrayList<>();
+        list.add(new ShoppingItem("tytul", "opis", R.drawable.carrot));
+        list.add(new ShoppingItem("tytul2", "opis2", R.drawable.groceries));
+        shoppingAdapter = new ShoppingAdapter(list, getActivity());
+        recyclerView.setAdapter(shoppingAdapter);
+        return mainFragment;
     }
 
     public void showAddPopupEditor() {
