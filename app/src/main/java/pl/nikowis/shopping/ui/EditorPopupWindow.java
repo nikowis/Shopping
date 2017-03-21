@@ -1,4 +1,4 @@
-package pl.nikowis.shopping;
+package pl.nikowis.shopping.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
+
+import pl.nikowis.shopping.R;
+import pl.nikowis.shopping.ShoppingItem;
 
 /**
  * Created by Nikodem on 3/21/2017.

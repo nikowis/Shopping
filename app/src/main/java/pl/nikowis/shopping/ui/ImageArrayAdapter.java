@@ -1,4 +1,4 @@
-package pl.nikowis.shopping;
+package pl.nikowis.shopping.ui;
 
 import android.content.Context;
 import android.view.View;

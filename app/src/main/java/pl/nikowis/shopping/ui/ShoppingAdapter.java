@@ -1,13 +1,16 @@
-package pl.nikowis.shopping;
+package pl.nikowis.shopping.ui;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+
+import pl.nikowis.shopping.R;
+import pl.nikowis.shopping.ShoppingItem;
+import pl.nikowis.shopping.ui.ShoppingViewHolder;
 
 /**
  * Created by Nikodem on 3/17/2017.
