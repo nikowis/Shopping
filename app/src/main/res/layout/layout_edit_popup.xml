@@ -44,7 +44,7 @@
         android:spinnerMode="dialog" />
 
     <Button
-        android:text="@string/popup_button"
+        android:text="@string/popup_button_add"
         android:layout_width="118dp"
         android:layout_height="wrap_content"
         android:id="@+id/popup_button_add" />

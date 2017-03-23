@@ -59,4 +59,7 @@ public class ItemQueryUtil {
     }
 
 
+    public void saveItem(ShoppingItem newShoppingItem) {
+
+    }
 }

@@ -20,10 +20,12 @@ public class ShoppingAdapter  extends RecyclerView.Adapter<ShoppingViewHolder> {
 
     private List<ShoppingItem> list;
     private Context context;
+    private View.OnLongClickListener itemLongClickListener;
 
-    public ShoppingAdapter(List<ShoppingItem> list, Context context) {
+    public ShoppingAdapter(List<ShoppingItem> list, Context context, View.OnLongClickListener itemLongClickListener) {
         this.list = list;
         this.context = context;
+        this.itemLongClickListener = itemLongClickListener;
     }
 
     @Override
@@ -36,6 +38,7 @@ public class ShoppingAdapter  extends RecyclerView.Adapter<ShoppingViewHolder> {
     @Override
     public void onBindViewHolder(ShoppingViewHolder holder, int position) {
         ShoppingItem shoppingItem = list.get(position);
+        holder.itemView.setOnLongClickListener(itemLongClickListener);
         holder.mTitleView.setText(shoppingItem.getTitle());
         holder.mDescriptionView.setText(shoppingItem.getDescription());
         holder.imageView.setImageResource(shoppingItem.getResId());

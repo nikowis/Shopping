@@ -1,7 +1,6 @@
 package pl.nikowis.shopping.ui;
 
 import android.app.Fragment;
-import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,11 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import pl.nikowis.shopping.R;
 import pl.nikowis.shopping.ShoppingItem;
-import pl.nikowis.shopping.db.ItemEntry;
 import pl.nikowis.shopping.db.ItemQueryUtil;
 import pl.nikowis.shopping.db.ShoppingDbHelper;
 
@@ -27,6 +26,9 @@ import pl.nikowis.shopping.db.ShoppingDbHelper;
  */
 
 public class MainFragment extends Fragment {
+
+    private static final Integer[] IMAGES = new Integer[]{R.drawable.carrot, R.drawable.groceries
+            , R.drawable.doughnut, R.drawable.turkey, R.drawable.washing_machine};
 
     private List<ShoppingItem> list;
     private EditorPopupWindow popupEditor;
@@ -39,7 +41,8 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         dbHelper = new ShoppingDbHelper(getActivity());
-        database = dbHelper.getWritableDatabase();;
+        database = dbHelper.getWritableDatabase();
+        ;
         final ItemQueryUtil queryUtil = new ItemQueryUtil(database);
 
         list = new ArrayList<>();
@@ -48,26 +51,51 @@ public class MainFragment extends Fragment {
         View mainFragment = inflater.inflate(R.layout.fragment_main, container, false);
         recyclerView = (RecyclerView) mainFragment.findViewById(R.id.shopping_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        popupEditor = new EditorPopupWindow(getActivity());
-        popupEditor.setAddButtonListener(new View.OnClickListener() {
+        popupEditor = new EditorPopupWindow(getActivity(), IMAGES);
+        popupEditor.setButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShoppingItem shoppingItem = popupEditor.commitFields();
-                list.add(shoppingItem);
-                queryUtil.addNewItem(shoppingItem);
+                ShoppingItem newItem = popupEditor.commitFields();
+                if (popupEditor.workMode.equals(EditorPopupWindow.WorkMode.ADDER)) {
+                    list.add(newItem);
+                    queryUtil.addNewItem(newItem);
+                } else {
+                    ShoppingItem oldItem = list.get(popupEditor.editedItemIndex);
+                    oldItem.setDescription(newItem.getDescription());
+                    oldItem.setTitle(newItem.getTitle());
+                    oldItem.setResId(newItem.getResId());
+                    queryUtil.saveItem(oldItem);
+                }
                 popupEditor.dismiss();
-                popupEditor.clearFields();
                 shoppingAdapter.notifyDataSetChanged();
             }
         });
 
-        shoppingAdapter = new ShoppingAdapter(list, getActivity());
+        final List<Integer> images = Arrays.asList(IMAGES);
+        shoppingAdapter = new ShoppingAdapter(list, getActivity(), new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int itemPosition = recyclerView.getChildLayoutPosition(v);
+                ShoppingItem item = list.get(itemPosition);
+                int index = images.indexOf(item.getResId());
+                popupEditor.title.setText(item.getTitle());
+                popupEditor.description.setText(item.getDescription());
+                popupEditor.image.setSelection(index);
+                popupEditor.editedItemIndex = itemPosition;
+                showEditPopupEditor();
+                return true;
+            }
+        });
         recyclerView.setAdapter(shoppingAdapter);
         return mainFragment;
     }
 
     public void showAddPopupEditor() {
-        popupEditor.showAtLocation(getActivity().findViewById(R.id.main_container), Gravity.CENTER, 10, 10);
+        popupEditor.showAtLocation(getActivity().findViewById(R.id.main_container), Gravity.CENTER, 10, 10, EditorPopupWindow.WorkMode.ADDER);
+    }
+
+    public void showEditPopupEditor() {
+        popupEditor.showAtLocation(getActivity().findViewById(R.id.main_container), Gravity.CENTER, 10, 10, EditorPopupWindow.WorkMode.EDITOR);
     }
 
     @Override
