@@ -52,6 +52,16 @@ public class MainFragment extends Fragment {
         recyclerView = (RecyclerView) mainFragment.findViewById(R.id.shopping_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         popupEditor = new EditorPopupWindow(getActivity(), IMAGES);
+        popupEditor.setDeleteButtonListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShoppingItem item = list.get(popupEditor.editedItemIndex);
+                list.remove(item);
+                queryUtil.deleteItem(item);
+                popupEditor.dismiss();
+                shoppingAdapter.notifyDataSetChanged();
+            }
+        });
         popupEditor.setButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +73,7 @@ public class MainFragment extends Fragment {
                     ShoppingItem oldItem = list.get(popupEditor.editedItemIndex);
                     oldItem.setDescription(newItem.getDescription());
                     oldItem.setTitle(newItem.getTitle());
-                    oldItem.setResId(newItem.getResId());
+                    oldItem.setImage(newItem.getImage());
                     queryUtil.saveItem(oldItem);
                 }
                 popupEditor.dismiss();
@@ -77,7 +87,7 @@ public class MainFragment extends Fragment {
             public boolean onLongClick(View v) {
                 int itemPosition = recyclerView.getChildLayoutPosition(v);
                 ShoppingItem item = list.get(itemPosition);
-                int index = images.indexOf(item.getResId());
+                int index = images.indexOf(item.getImage());
                 popupEditor.title.setText(item.getTitle());
                 popupEditor.description.setText(item.getDescription());
                 popupEditor.image.setSelection(index);

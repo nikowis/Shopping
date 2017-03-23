@@ -10,7 +10,6 @@ import java.util.List;
 
 import pl.nikowis.shopping.R;
 import pl.nikowis.shopping.ShoppingItem;
-import pl.nikowis.shopping.ui.ShoppingViewHolder;
 
 /**
  * Created by Nikodem on 3/17/2017.
@@ -41,7 +40,7 @@ public class ShoppingAdapter  extends RecyclerView.Adapter<ShoppingViewHolder> {
         holder.itemView.setOnLongClickListener(itemLongClickListener);
         holder.mTitleView.setText(shoppingItem.getTitle());
         holder.mDescriptionView.setText(shoppingItem.getDescription());
-        holder.imageView.setImageResource(shoppingItem.getResId());
+        holder.imageView.setImageResource(shoppingItem.getImage());
     }
 
     @Override

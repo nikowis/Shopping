@@ -20,7 +20,7 @@ public class EditorPopupWindow extends PopupWindow {
     protected WorkMode workMode;
     private Context context;
     private View popupLayout;
-    private Button popupButton;
+    private Button actionButton, deleteButton;
     protected Spinner image;
     private Integer[] images;
     final protected EditText title, description;
@@ -33,7 +33,8 @@ public class EditorPopupWindow extends PopupWindow {
         popupLayout = LayoutInflater.from(context).inflate(R.layout.layout_edit_popup, null);
         setContentView(popupLayout);
         setFocusable(true);
-        popupButton = (Button) popupLayout.findViewById(R.id.popup_button_add);
+        actionButton = (Button) popupLayout.findViewById(R.id.popup_button_action);
+        deleteButton = (Button) popupLayout.findViewById(R.id.popup_button_delete);
         image = (Spinner) popupLayout.findViewById(R.id.popup_image_spinner);
         workMode = WorkMode.ADDER;
         image.setAdapter(new ImageArrayAdapter(context, images));
@@ -42,7 +43,7 @@ public class EditorPopupWindow extends PopupWindow {
     }
 
     public void setButtonListener(View.OnClickListener listener) {
-        popupButton.setOnClickListener(listener);
+        actionButton.setOnClickListener(listener);
     }
 
     private void clearFields() {
@@ -59,12 +60,18 @@ public class EditorPopupWindow extends PopupWindow {
     public void showAtLocation(View parent, int gravity, int x, int y, WorkMode workMode) {
         this.workMode = workMode;
         if(WorkMode.ADDER.equals(workMode)) {
-            popupButton.setText(context.getResources().getText(R.string.popup_button_add));
+            actionButton.setText(context.getResources().getText(R.string.popup_button_add));
+            deleteButton.setVisibility(View.GONE);
             clearFields();
         } else {
-            popupButton.setText(context.getResources().getText(R.string.popup_button_edit));
+            deleteButton.setVisibility(View.VISIBLE);
+            actionButton.setText(context.getResources().getText(R.string.popup_button_edit));
         }
         super.showAtLocation(parent, gravity, x, y);
+    }
+
+    public void setDeleteButtonListener(View.OnClickListener listener) {
+        deleteButton.setOnClickListener(listener);
     }
 
     public enum WorkMode {

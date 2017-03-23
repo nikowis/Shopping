@@ -6,12 +6,13 @@ package pl.nikowis.shopping;
 public class ShoppingItem {
     private String title;
     private String description;
-    private int resId;
+    private long id;
+    private int image;
 
-    public ShoppingItem(String title, String description, int resId) {
+    public ShoppingItem(String title, String description, int image) {
         this.title = title;
         this.description = description;
-        this.resId = resId;
+        this.image = image;
     }
 
     public String getTitle() {
@@ -22,8 +23,8 @@ public class ShoppingItem {
         return description;
     }
 
-    public int getResId() {
-        return resId;
+    public int getImage() {
+        return image;
     }
 
     public void setTitle(String title) {
@@ -34,7 +35,15 @@ public class ShoppingItem {
         this.description = description;
     }
 
-    public void setResId(int resId) {
-        this.resId = resId;
+    public void setImage(int image) {
+        this.image = image;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
     }
 }

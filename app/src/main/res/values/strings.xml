@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Shopping list</string>
+    <string name="popup_button_delete">Delete</string>
     <string name="popup_button_add">Add</string>
-    <string name="popup_button_edit">Edit</string>
+    <string name="popup_button_edit">Save</string>
     <string name="popup_title_label">Title</string>
     <string name="popup_description_label">Description</string>
     <string name="popup_image_label">Image</string>

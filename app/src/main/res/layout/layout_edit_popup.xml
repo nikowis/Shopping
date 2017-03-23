@@ -47,6 +47,13 @@
         android:text="@string/popup_button_add"
         android:layout_width="118dp"
         android:layout_height="wrap_content"
-        android:id="@+id/popup_button_add" />
+        android:id="@+id/popup_button_action" />
+
+    <Button
+        android:id="@+id/popup_button_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/popup_button_delete"
+        android:background="@color/colorPrimary"/>
 
 </LinearLayout>
