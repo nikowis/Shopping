@@ -15,6 +15,13 @@ public class ShoppingItem {
         this.image = image;
     }
 
+    public ShoppingItem(long id, String title, String desc, int image) {
+        this.title = title;
+        this.description = desc;
+        this.image = image;
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }

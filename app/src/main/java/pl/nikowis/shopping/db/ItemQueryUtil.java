@@ -41,10 +41,11 @@ public class ItemQueryUtil {
         );
 
         while (cursor.moveToNext()) {
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(ItemEntry._ID));
             String title = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.COLUMN_NAME_TITLE));
             String desc = cursor.getString(cursor.getColumnIndexOrThrow(ItemEntry.COLUMN_NAME_DESCRIPTION));
             int image = cursor.getInt(cursor.getColumnIndexOrThrow(ItemEntry.COLUMN_NAME_IMAGE));
-            items.add(new ShoppingItem(title, desc, image));
+            items.add(new ShoppingItem(id, title, desc, image));
         }
 
         return items;

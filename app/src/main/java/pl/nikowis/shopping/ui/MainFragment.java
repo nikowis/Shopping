@@ -67,8 +67,8 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 ShoppingItem newItem = popupEditor.commitFields();
                 if (popupEditor.workMode.equals(EditorPopupWindow.WorkMode.ADDER)) {
-                    list.add(newItem);
                     queryUtil.addNewItem(newItem);
+                    list.add(newItem);
                 } else {
                     ShoppingItem oldItem = list.get(popupEditor.editedItemIndex);
                     oldItem.setDescription(newItem.getDescription());
