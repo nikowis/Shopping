@@ -44,10 +44,10 @@
         android:spinnerMode="dialog" />
 
     <Button
-        android:text="@string/popup_button_add"
-        android:layout_width="118dp"
+        android:id="@+id/popup_button_action"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/popup_button_action" />
+        android:text="@string/popup_button_add" />
 
     <Button
         android:id="@+id/popup_button_delete"
