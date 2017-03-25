@@ -55,29 +55,13 @@ public class MainFragment extends Fragment {
         popupEditor.setDeleteButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShoppingItem item = list.get(popupEditor.editedItemIndex);
-                list.remove(item);
-                queryUtil.deleteItem(item);
-                popupEditor.dismiss();
-                shoppingAdapter.notifyDataSetChanged();
+                deleteItem(queryUtil);
             }
         });
-        popupEditor.setButtonListener(new View.OnClickListener() {
+        popupEditor.setActionButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShoppingItem newItem = popupEditor.commitFields();
-                if (popupEditor.workMode.equals(EditorPopupWindow.WorkMode.ADDER)) {
-                    queryUtil.addNewItem(newItem);
-                    list.add(newItem);
-                } else {
-                    ShoppingItem oldItem = list.get(popupEditor.editedItemIndex);
-                    oldItem.setDescription(newItem.getDescription());
-                    oldItem.setTitle(newItem.getTitle());
-                    oldItem.setImage(newItem.getImage());
-                    queryUtil.saveItem(oldItem);
-                }
-                popupEditor.dismiss();
-                shoppingAdapter.notifyDataSetChanged();
+                popupActionOnClick(queryUtil);
             }
         });
 
@@ -85,14 +69,7 @@ public class MainFragment extends Fragment {
         shoppingAdapter = new ShoppingAdapter(list, getActivity(), new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                int itemPosition = recyclerView.getChildLayoutPosition(v);
-                ShoppingItem item = list.get(itemPosition);
-                int index = images.indexOf(item.getImage());
-                popupEditor.title.setText(item.getTitle());
-                popupEditor.description.setText(item.getDescription());
-                popupEditor.image.setSelection(index);
-                popupEditor.editedItemIndex = itemPosition;
-                showEditPopupEditor();
+                showEditPopup(v, images);
                 return true;
             }
         });
@@ -100,12 +77,43 @@ public class MainFragment extends Fragment {
         return mainFragment;
     }
 
-    public void showAddPopupEditor() {
-        popupEditor.showAtLocation(getActivity().findViewById(R.id.main_container), Gravity.CENTER, 10, 10, EditorPopupWindow.WorkMode.ADDER);
+    private void popupActionOnClick(ItemQueryUtil queryUtil) {
+        ShoppingItem newItem = popupEditor.commitFields();
+        if (popupEditor.workMode.equals(EditorPopupWindow.WorkMode.ADDER)) {
+            queryUtil.addNewItem(newItem);
+            list.add(newItem);
+        } else {
+            ShoppingItem oldItem = list.get(popupEditor.editedItemIndex);
+            oldItem.setDescription(newItem.getDescription());
+            oldItem.setTitle(newItem.getTitle());
+            oldItem.setImage(newItem.getImage());
+            queryUtil.saveItem(oldItem);
+        }
+        popupEditor.dismiss();
+        shoppingAdapter.notifyDataSetChanged();
     }
 
-    public void showEditPopupEditor() {
-        popupEditor.showAtLocation(getActivity().findViewById(R.id.main_container), Gravity.CENTER, 10, 10, EditorPopupWindow.WorkMode.EDITOR);
+    private void showEditPopup(View v, List<Integer> images) {
+        int itemPosition = recyclerView.getChildLayoutPosition(v);
+        ShoppingItem item = list.get(itemPosition);
+        int index = images.indexOf(item.getImage());
+        popupEditor.title.setText(item.getTitle());
+        popupEditor.description.setText(item.getDescription());
+        popupEditor.image.setSelection(index);
+        popupEditor.editedItemIndex = itemPosition;
+        showPopupEditor(EditorPopupWindow.WorkMode.EDITOR);
+    }
+
+    private void deleteItem(ItemQueryUtil queryUtil) {
+        ShoppingItem item = list.get(popupEditor.editedItemIndex);
+        list.remove(item);
+        queryUtil.deleteItem(item);
+        popupEditor.dismiss();
+        shoppingAdapter.notifyDataSetChanged();
+    }
+
+    public void showPopupEditor(EditorPopupWindow.WorkMode mode) {
+        popupEditor.showAtLocation(getActivity().findViewById(R.id.main_container), Gravity.CENTER, 10, 10, mode);
     }
 
     @Override

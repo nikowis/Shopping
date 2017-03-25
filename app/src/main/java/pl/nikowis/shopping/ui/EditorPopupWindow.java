@@ -42,7 +42,7 @@ public class EditorPopupWindow extends PopupWindow {
         description = (EditText) popupLayout.findViewById(R.id.popup_text_description);
     }
 
-    public void setButtonListener(View.OnClickListener listener) {
+    public void setActionButtonListener(View.OnClickListener listener) {
         actionButton.setOnClickListener(listener);
     }
 

@@ -2,6 +2,7 @@ package pl.nikowis.shopping.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -23,9 +24,10 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                frag.showAddPopupEditor();
+                frag.showPopupEditor(EditorPopupWindow.WorkMode.ADDER);
             }
         });
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
     @Override
