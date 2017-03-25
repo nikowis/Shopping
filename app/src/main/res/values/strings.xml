@@ -6,4 +6,7 @@
     <string name="popup_title_label">Title</string>
     <string name="popup_description_label">Description</string>
     <string name="popup_image_label">Image</string>
+    <string name="pref_font_size">Font size</string>
+    <string name="pref_font_size_default_value">15</string>
+    <string name="menu_item_title">Settings</string>
 </resources>
