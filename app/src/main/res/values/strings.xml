@@ -9,4 +9,6 @@
     <string name="pref_font_size">Font size</string>
     <string name="pref_font_size_default_value">15</string>
     <string name="menu_item_title">Settings</string>
+    <string name="pref_font_color_default_value">#212121</string>
+    <string name="pref_font_color">Font color</string>
 </resources>

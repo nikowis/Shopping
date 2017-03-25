@@ -3,6 +3,7 @@ package pl.nikowis.shopping.ui;
 import android.app.Fragment;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +67,7 @@ public class MainFragment extends Fragment {
         });
 
         final List<Integer> images = Arrays.asList(IMAGES);
+
         shoppingAdapter = new ShoppingAdapter(list, getActivity(), new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -73,6 +75,7 @@ public class MainFragment extends Fragment {
                 return true;
             }
         });
+
         recyclerView.setAdapter(shoppingAdapter);
         return mainFragment;
     }
@@ -120,5 +123,11 @@ public class MainFragment extends Fragment {
     public void onDestroy() {
         dbHelper.close();
         super.onDestroy();
+    }
+
+    @Override
+    public void onResume() {
+        shoppingAdapter.notifyDataSetChanged();
+        super.onResume();
     }
 }

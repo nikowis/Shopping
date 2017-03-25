@@ -1,6 +1,8 @@
 package pl.nikowis.shopping.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,20 +19,25 @@ import pl.nikowis.shopping.ShoppingItem;
 public class ShoppingAdapter  extends RecyclerView.Adapter<ShoppingViewHolder> {
 
 
+
     private List<ShoppingItem> list;
     private Context context;
     private View.OnLongClickListener itemLongClickListener;
+    public static int cardsFontSize;
+    public static String cardsFontColor;
 
     public ShoppingAdapter(List<ShoppingItem> list, Context context, View.OnLongClickListener itemLongClickListener) {
         this.list = list;
         this.context = context;
         this.itemLongClickListener = itemLongClickListener;
+        cardsFontSize = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(context).getString(SettingsFragment.KEY_PREF_FONT_SIZE, "15"));
+        cardsFontColor = PreferenceManager.getDefaultSharedPreferences(context).getString(SettingsFragment.KEY_PREF_FONT_COLOR, "#212121");
     }
 
     @Override
     public ShoppingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_shopping_item, null);
-        ShoppingViewHolder shoppingViewHolder = new ShoppingViewHolder(view);
+        ShoppingViewHolder shoppingViewHolder = new ShoppingViewHolder(view, cardsFontSize, cardsFontColor);
         return shoppingViewHolder;
     }
 

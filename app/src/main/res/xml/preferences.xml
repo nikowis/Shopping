@@ -3,5 +3,14 @@
     <EditTextPreference
         android:key="pref_font_size"
         android:title="@string/pref_font_size"
-        android:defaultValue="@string/pref_font_size_default_value"/>
+        android:defaultValue="@string/pref_font_size_default_value"
+        android:inputType="numberDecimal"/>
+
+    <ListPreference
+        android:key="pref_font_color"
+        android:title="@string/pref_font_color"
+        android:defaultValue="@string/pref_font_color_default_value"
+        android:entries="@array/color"
+        android:entryValues="@array/colorAlias"/>
+
 </PreferenceScreen>
