@@ -2,8 +2,12 @@ package pl.nikowis.shopping.ui;
 
 import android.app.Fragment;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +15,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
+import android.widget.PopupWindow;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,6 +72,13 @@ public class MainFragment extends Fragment {
             }
         });
 
+        popupEditor.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                clearDim((ViewGroup) getActivity().getWindow().getDecorView().getRootView());
+            }
+        });
+
         final List<Integer> images = Arrays.asList(IMAGES);
 
         shoppingAdapter = new ShoppingAdapter(list, getActivity(), new View.OnLongClickListener() {
@@ -92,7 +105,7 @@ public class MainFragment extends Fragment {
             oldItem.setImage(newItem.getImage());
             queryUtil.saveItem(oldItem);
         }
-        popupEditor.dismiss();
+        hidePopupEditor();
         shoppingAdapter.notifyDataSetChanged();
     }
 
@@ -111,12 +124,31 @@ public class MainFragment extends Fragment {
         ShoppingItem item = list.get(popupEditor.editedItemIndex);
         list.remove(item);
         queryUtil.deleteItem(item);
-        popupEditor.dismiss();
+        hidePopupEditor();
         shoppingAdapter.notifyDataSetChanged();
+    }
+
+    public void hidePopupEditor() {
+        popupEditor.dismiss();
     }
 
     public void showPopupEditor(EditorPopupWindow.WorkMode mode) {
         popupEditor.showAtLocation(getActivity().findViewById(R.id.main_container), Gravity.CENTER, 10, 10, mode);
+        applyDim((ViewGroup) getActivity().getWindow().getDecorView().getRootView(), 0.7f);
+    }
+
+    public static void applyDim(@NonNull ViewGroup parent, float dimAmount){
+        Drawable dim = new ColorDrawable(Color.BLACK);
+        dim.setBounds(0, 0, parent.getWidth(), parent.getHeight());
+        dim.setAlpha((int) (255 * dimAmount));
+
+        ViewGroupOverlay overlay = parent.getOverlay();
+        overlay.add(dim);
+    }
+
+    public static void clearDim(@NonNull ViewGroup parent) {
+        ViewGroupOverlay overlay = parent.getOverlay();
+        overlay.clear();
     }
 
     @Override
